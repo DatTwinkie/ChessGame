@@ -1,16 +1,76 @@
-# This is a sample Python script.
+# Modules that are being used
+import pygame
+import sys
+from button import Button
+# Initialising pygame
+pygame.init()
+# Program size and name
+screen = pygame.display.set_mode((1280, 720))
+pygame.display.set_caption("Menu")
+# Background image
+Background = pygame.image.load("messi ronaldo chess.png")
 
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+
+# Define a function that loads a font and returns it with the given size
+def get_font(size):
+    return pygame.font.Font("Roboto-Black.ttf", size)
 
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
+# Define the main menu function
+def main_menu():
+    # Set the caption of the Pygame window
+    pygame.display.set_caption("menu")
+
+    # Run the main menu loop
+    while True:
+        # Clear the screen by drawing the background image at (0, 0)
+        screen.blit(Background, (0, 0))
+
+        # Get the current mouse position
+        Menu_Mouse_Pos = pygame.mouse.get_pos()
+
+        # Render the "Main Menu" text and create a rectangle for it
+        Menu_Text = get_font(100).render("Main Menu", True, "#b68f40")
+        Menu_Rectangle = Menu_Text.get_rect(center=(640, 100))
+
+        # Create three Button objects for "PLAY", "OPTIONS", and "QUIT"
+        PLAY_BUTTON = Button(image=pygame.image.load("Play Rect.png"), pos=(640, 250),
+                             text_input="PLAY", font=get_font(75), base_colour="#d7fcd4", highlight_colour="White")
+        OPTIONS_BUTTON = Button(image=pygame.image.load("Options Rect.png"), pos=(640, 400),
+                                text_input="OPTIONS", font=get_font(75), base_colour="#d7fcd4",
+                                highlight_colour="White")
+        QUIT_BUTTON = Button(image=pygame.image.load("Quit Rect.png"), pos=(640, 550),
+                             text_input="QUIT", font=get_font(75), base_colour="#d7fcd4", highlight_colour="White")
+
+        # Draw the "Main Menu" text at the center of the screen
+        screen.blit(Menu_Text, Menu_Rectangle)
+
+        # Loop through the three Button objects
+        for button in [PLAY_BUTTON, OPTIONS_BUTTON, QUIT_BUTTON]:
+            # Change the color of the button's text if the mouse is hovering over it
+            button.changeColour(Menu_Mouse_Pos)
+            # Draw the button on the screen
+            button.update(screen)
+
+        # Handle events
+        for event in pygame.event.get():
+            # If the "X" button is clicked, quit the game
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+            # If the mouse button is clicked, check if it's inside a button and execute the appropriate function
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if PLAY_BUTTON.checkForInput(Menu_Mouse_Pos):
+                    play()
+                if OPTIONS_BUTTON.checkForInput(Menu_Mouse_Pos):
+                    options()
+                if QUIT_BUTTON.checkForInput(Menu_Mouse_Pos):
+                    pygame.quit()
+                    sys.exit()
+
+    # Update the display
+    pygame.display.update()
 
 
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('PyCharm')
-
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+# Call the main menu function to start the game
+main_menu()
