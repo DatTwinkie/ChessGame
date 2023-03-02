@@ -1,15 +1,15 @@
 # Define a class for creating buttons
 class Button():
     # Define the initialization function for the Button class
-    def __init__(self, image, pos, text_input, font, base_color, highlight_colour):
+    def __init__(self, image, pos, text_input, font, base_colour, highlight_colour):
         # Assign instance variables
         self.image = image
         self.x_pos = pos[0]
         self.y_pos = pos[1]
         self.font = font
-        self.base_colour, self.hovering_colour = base_color, highlight_colour
+        self.base_colour, self.highlight_colour = base_colour, highlight_colour
         self.text_input = text_input
-        # Render the button's text using the specified font and base color
+        # Render the button's text using the specified font and base colour
         self.text = self.font.render(self.text_input, True, self.base_colour)
         # If an image was not provided, use the rendered text as the button's image
         if self.image is None:
@@ -35,12 +35,12 @@ class Button():
         # Return False if the click is not within the boundaries of the button
         return False
 
-    # Create a function to change the color of the button when the mouse is hovering over it
-    def changeColor(self, position):
+    # Create a function to change the colour of the button when the mouse is hovering over it
+    def changeColour(self, position):
         # Check if the mouse is hovering over the button
         if position[0] in range(self.rect.left, self.rect.right) and position[1] in range(self.rect.top, self.rect.bottom):
-            # Change the color of the button's text to the hovering color
+            # Change the colour of the button's text to the hovering colour
             self.text = self.font.render(self.text_input, True, self.highlight_colour)
         else:
-            # Change the color of the button's text back to the base color
+            # Change the colour of the button's text back to the base colour
             self.text = self.font.render(self.text_input, True, self.base_colour)
